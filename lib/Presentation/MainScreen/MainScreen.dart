@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart'as http;
+import 'package:weather_app/Presentation/weather%20Page/weatherPage.dart';
+import '../../Components/components.dart';
+import 'dart:convert';
+
+
 
 class Mainscreen extends StatelessWidget {
-  const Mainscreen({super.key});
-
-  void getlocation()async{
-    await Geolocator.checkPermission();
-   await Geolocator.requestPermission();
-    Position? position = await Geolocator.getLastKnownPosition();
-    print(position);
-  }
+  Mainscreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +33,17 @@ class Mainscreen extends StatelessWidget {
             height: 150,
           ),
           GestureDetector(
-            onTap: (){
-              getlocation();
+            onTap: () {
+              getLocation();
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => weatherPage(),));
             },
             child: Container(
               margin: EdgeInsets.all(15),
               padding: EdgeInsets.all(10),
               height: 58,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.blueAccent
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.blueAccent
               ),
               child: Text("Check Weather",
                 textAlign: TextAlign.center,
