@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Mainscreen extends StatelessWidget {
   const Mainscreen({super.key});
+
+  void getlocation()async{
+    await Geolocator.checkPermission();
+   await Geolocator.requestPermission();
+    Position? position = await Geolocator.getLastKnownPosition();
+    print(position);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +36,7 @@ class Mainscreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: (){
-
+              getlocation();
             },
             child: Container(
               margin: EdgeInsets.all(15),
