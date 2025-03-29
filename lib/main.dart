@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/Presentation/MainScreen/MainScreen.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: Mainscreen() ,
+      // home: temp(),
     );
   }
 }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart'as http;
 import 'package:weather_app/Presentation/weather%20Page/weatherPage.dart';
-import '../../Components/components.dart';
-import 'dart:convert';
+
 
 
 
@@ -34,8 +32,8 @@ class Mainscreen extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              getLocation();
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => weatherPage(),));
+              // getLocation();
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => WeatherPage(),));
             },
             child: Container(
               margin: EdgeInsets.all(15),
