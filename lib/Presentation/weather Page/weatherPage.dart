@@ -15,9 +15,10 @@ class WeatherPage extends StatefulWidget {
 class _WeatherPageState extends State<WeatherPage> {
   double? latitude;
   double? longitude;
-  String city = "Loading...";
-  String weatherCondition = "Fetching...";
+  String city = "";
+  String weatherCondition = "";
   double temperature = 0.0;
+  bool isLoading = true; // Track loading state
 
   @override
   void initState() {
@@ -49,51 +50,67 @@ class _WeatherPageState extends State<WeatherPage> {
         weatherCondition = data['weather'][0]['main'];
         temperature = data['main']['temp'] - 273.15; // Convert to Celsius
         city = data['name'];
+        isLoading = false; // Stop loading after fetching data
       });
     } else {
       print("Error: ${response.statusCode}");
+      setState(() {
+        isLoading = false; // Stop loading even if there’s an error
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Image.asset("assets/weather.png", height: 300),
-          SizedBox(height: 50),
-          Text(
-            city,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            weatherCondition,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  temperature.toStringAsFixed(0), // Display one decimal place
-                  style: TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 50.0),
-                  child: Text(
-                    "°C",
-                    style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
+      body: Center(
+        child: isLoading
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(), // Loading animation
+            SizedBox(height: 20),
+            Text("Fetching Weather Data...",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+          ],
+        )
+            : Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Image.asset("assets/weather.png", height: 300),
+            SizedBox(height: 50),
+            Text(
+              city,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-          ),
-        ],
+            Text(
+              weatherCondition,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    temperature.toStringAsFixed(0), // Display one decimal place
+                    style: TextStyle(fontSize: 80, fontWeight: FontWeight.bold),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 50.0),
+                    child: Text(
+                      "°C",
+                      style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
